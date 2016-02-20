@@ -12,8 +12,8 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet weak var mailboxScrollView: UIScrollView!
     @IBOutlet weak var feedImageView: UIImageView!
-    @IBOutlet weak var laterIconImageView: UIImageView!
-    @IBOutlet weak var archiveIconImageView: UIImageView!
+    @IBOutlet weak var rightIconImageView: UIImageView!
+    @IBOutlet weak var leftIconImageView: UIImageView!
     @IBOutlet weak var messageImageView: UIImageView!
     @IBOutlet weak var listImageView: UIImageView!
     @IBOutlet weak var rescheduleView: UIImageView!
@@ -29,8 +29,8 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
         mailboxScrollView.delegate = self
         mailboxScrollView.contentSize = CGSize(width: 320, height: 1420)
 
-        laterIconImageView.alpha = 0
-        archiveIconImageView.alpha = 0
+        rightIconImageView.alpha = 0
+        leftIconImageView.alpha = 0
         listImageView.alpha = 0
 
     }
@@ -48,63 +48,128 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
 
         if sender.state == UIGestureRecognizerState.Began {
             initialCenter = messageImageView.center
-            initialCenterLaterIcon = laterIconImageView.center
-            initialCenterArchiveIcon = archiveIconImageView.center
+            initialCenterLaterIcon = rightIconImageView.center
+            initialCenterArchiveIcon = leftIconImageView.center
 
         } else if sender.state == UIGestureRecognizerState.Changed {
             messageImageView.center.x = translation.x + initialCenter.x
-            laterIconImageView.center.x = translation.x + initialCenterLaterIcon.x + 35
-            archiveIconImageView.center.x = translation.x + initialCenterArchiveIcon.x - 35
+            rightIconImageView.center.x = translation.x + initialCenterLaterIcon.x + 35
+            leftIconImageView.center.x = translation.x + initialCenterArchiveIcon.x - 35
 
-            var messageCenter = CGFloat(messageImageView.center.x)
-            print("translation: \(translation)")
+            let messageCenter = CGFloat(messageImageView.center.x)
 
-            if translation.x >= -60 && translation.x < 0 {
-                self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
-                UIView.animateWithDuration(0.5, animations: {
-                    () -> Void in
-                    if translation.x <= -30 {
-                        UIView.animateWithDuration(1.5, animations: {
-                            () -> Void in
-                            self.laterIconImageView.alpha = 1
-                        })
-                    }
-
-                })
-            } else if translation.x > 0 && translation.x < 60 {
-                print(translation)
-                UIView.animateWithDuration(0.5, animations: {
-                    () -> Void in
+            if velocity.x < 0 {
+                if translation.x >= -60 && translation.x < 0 {
                     self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
-                    UIView.animateWithDuration(0.4, animations: {
+                    UIView.animateWithDuration(0.5, animations: {
                         () -> Void in
-                        self.archiveIconImageView.alpha = 1
+                        if translation.x <= 30 {
+                            UIView.animateWithDuration(1.5, animations: {
+                                () -> Void in
+                                self.rightIconImageView.alpha = 1
+                            })
+                        }
+                    })
+                } else if translation.x <= -60 && translation.x > -220 {
+                    UIView.animateWithDuration(0.5, animations: {
+                        () -> Void in
+                        self.backgroundView.backgroundColor = UIColor.init(hexString: "ffd320")
+                        self.rightIconImageView.alpha = 1
 
                     })
-                })
-            } else if translation.x <= -60 && translation.x > -260 {
-                UIView.animateWithDuration(0.5, animations: {
-                    () -> Void in
-                    self.backgroundView.backgroundColor = UIColor.init(hexString: "ffd320")
-                    self.laterIconImageView.alpha = 1
-
-                })
-            } else if translation.x > 60 {
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    self.backgroundView.backgroundColor = UIColor.init(hexString: "62d962")
-                    self.archiveIconImageView.alpha = 1
-                })
+                } else if translation.x < -220 {
+                    UIView.animateWithDuration(0.5, animations: {
+                        () -> Void in
+                        self.backgroundView.backgroundColor = UIColor.init(hexString: "d8a675")
+                        self.rightIconImageView.alpha = 1
+                    })
+                }
             }
+
+            if velocity.x > 0 {
+                if translation.x > 0 && translation.x < 60 {
+                    UIView.animateWithDuration(0.5, animations: {
+                        () -> Void in
+                        self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
+                        UIView.animateWithDuration(0.4, animations: {
+                            () -> Void in
+                            self.leftIconImageView.alpha = 1
+                        })
+                    })
+                } else if translation.x > 60 && translation.x < 220 {
+                    UIView.animateWithDuration(0.5, animations: {
+                        () -> Void in
+                        self.backgroundView.backgroundColor = UIColor.init(hexString: "62d962")
+                        self.leftIconImageView.alpha = 1
+                    })
+                } else if translation.x > 220 {
+                    UIView.animateWithDuration(0.5, animations: {
+                        () -> Void in
+                        self.backgroundView.backgroundColor = UIColor.init(hexString: "ef540c")
+                        self.rightIconImageView.alpha = 1
+                    })
+                }
+            }
+//            if translation.x >= -60 && translation.x < 0 {
+//                self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
+//                UIView.animateWithDuration(0.5, animations: {
+//                    () -> Void in
+//                    if translation.x <= -30 {
+//                        UIView.animateWithDuration(1.5, animations: {
+//                            () -> Void in
+//                            self.laterIconImageView.alpha = 1
+//                        })
+//                    }
+//
+//                })
+//            } else if translation.x > 0 && translation.x < 60 {
+//                print(translation)
+//                UIView.animateWithDuration(0.5, animations: {
+//                    () -> Void in
+//                    self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
+//                    UIView.animateWithDuration(0.4, animations: {
+//                        () -> Void in
+//                        self.archiveIconImageView.alpha = 1
+//
+//                    })
+//                })
+//            } else if translation.x <= -60 && translation.x > -220 {
+//                UIView.animateWithDuration(0.5, animations: {
+//                    () -> Void in
+//                    self.backgroundView.backgroundColor = UIColor.init(hexString: "ffd320")
+//                    self.laterIconImageView.alpha = 1
+//
+//                })
+//            } else if translation.x < -220 {
+//                UIView.animateWithDuration(0.5, animations: {
+//                    () -> Void in
+//                    self.backgroundView.backgroundColor = UIColor.init(hexString: "d8a675")
+//                    self.laterIconImageView.alpha = 1
+//
+//                })
+//            } else if translation.x > 60 && translation.x < 220 {
+//                UIView.animateWithDuration(0.5, animations: { () -> Void in
+//                    self.backgroundView.backgroundColor = UIColor.init(hexString: "62d962")
+//                    self.archiveIconImageView.alpha = 1
+//                })
+//            } else if translation.x > 220 {
+//                UIView.animateWithDuration(0.5, animations: {
+//                    () -> Void in
+//                    self.backgroundView.backgroundColor = UIColor.init(hexString: "ef540c")
+//                    self.laterIconImageView.alpha = 1
+//
+//                })
+//            }
         } else if sender.state == UIGestureRecognizerState.Ended {
             UIView.animateWithDuration(0.5, animations: {
                 () -> Void in
                 self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
                 self.messageImageView.center.x = self.initialCenter.x
-                self.laterIconImageView.center.x = self.initialCenterLaterIcon.x
-                self.laterIconImageView.alpha = 0
-                
-                self.archiveIconImageView.center.x = self.initialCenterArchiveIcon.x
-                self.archiveIconImageView.alpha = 0
+                self.rightIconImageView.center.x = self.initialCenterLaterIcon.x
+                self.rightIconImageView.alpha = 0
+
+                self.leftIconImageView.center.x = self.initialCenterArchiveIcon.x
+                self.leftIconImageView.alpha = 0
             })
         }
     }

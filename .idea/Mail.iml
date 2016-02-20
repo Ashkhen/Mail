@@ -9,8 +9,8 @@
       <sourceFolder url="file://$MODULE_DIR$/Mail/Assets.xcassets" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Mail/Base.lproj/LaunchScreen.storyboard" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Mail/Base.lproj/Main.storyboard" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/MailTests/MailTests.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MailTests/Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MailTests/MailTests.swift" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MailUITests/Info.plist" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MailUITests/MailUITests.swift" isTestSource="false" />
     </content>
