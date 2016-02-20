@@ -57,7 +57,8 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
             leftIconImageView.center.x = translation.x + initialCenterArchiveIcon.x - 35
 
             let messageCenter = CGFloat(messageImageView.center.x)
-
+            
+            // when panning left.
             if velocity.x < 0 {
                 if translation.x >= -60 && translation.x < 0 {
                     self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
@@ -85,7 +86,7 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
                     })
                 }
             }
-
+            // when panning right.
             if velocity.x > 0 {
                 if translation.x > 0 && translation.x < 60 {
                     UIView.animateWithDuration(0.5, animations: {
@@ -110,56 +111,6 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
                     })
                 }
             }
-//            if translation.x >= -60 && translation.x < 0 {
-//                self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
-//                UIView.animateWithDuration(0.5, animations: {
-//                    () -> Void in
-//                    if translation.x <= -30 {
-//                        UIView.animateWithDuration(1.5, animations: {
-//                            () -> Void in
-//                            self.laterIconImageView.alpha = 1
-//                        })
-//                    }
-//
-//                })
-//            } else if translation.x > 0 && translation.x < 60 {
-//                print(translation)
-//                UIView.animateWithDuration(0.5, animations: {
-//                    () -> Void in
-//                    self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
-//                    UIView.animateWithDuration(0.4, animations: {
-//                        () -> Void in
-//                        self.archiveIconImageView.alpha = 1
-//
-//                    })
-//                })
-//            } else if translation.x <= -60 && translation.x > -220 {
-//                UIView.animateWithDuration(0.5, animations: {
-//                    () -> Void in
-//                    self.backgroundView.backgroundColor = UIColor.init(hexString: "ffd320")
-//                    self.laterIconImageView.alpha = 1
-//
-//                })
-//            } else if translation.x < -220 {
-//                UIView.animateWithDuration(0.5, animations: {
-//                    () -> Void in
-//                    self.backgroundView.backgroundColor = UIColor.init(hexString: "d8a675")
-//                    self.laterIconImageView.alpha = 1
-//
-//                })
-//            } else if translation.x > 60 && translation.x < 220 {
-//                UIView.animateWithDuration(0.5, animations: { () -> Void in
-//                    self.backgroundView.backgroundColor = UIColor.init(hexString: "62d962")
-//                    self.archiveIconImageView.alpha = 1
-//                })
-//            } else if translation.x > 220 {
-//                UIView.animateWithDuration(0.5, animations: {
-//                    () -> Void in
-//                    self.backgroundView.backgroundColor = UIColor.init(hexString: "ef540c")
-//                    self.laterIconImageView.alpha = 1
-//
-//                })
-//            }
         } else if sender.state == UIGestureRecognizerState.Ended {
             UIView.animateWithDuration(0.5, animations: {
                 () -> Void in
