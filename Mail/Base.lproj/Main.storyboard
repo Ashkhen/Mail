@@ -48,9 +48,9 @@
                                                 <rect key="frame" x="87" y="43" width="147" height="29"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <segments>
-                                                    <segment title="" image="later_nav_icon" enabled="NO"/>
+                                                    <segment title="" image="later_nav_icon"/>
                                                     <segment title="" image="mail_nav_icon"/>
-                                                    <segment title="" image="archive_nav_icon" enabled="NO"/>
+                                                    <segment title="" image="archive_nav_icon"/>
                                                 </segments>
                                                 <color key="tintColor" red="0.26666666666666666" green="0.6705882352941176" blue="0.82745098039215681" alpha="1" colorSpace="calibratedRGB"/>
                                             </segmentedControl>
