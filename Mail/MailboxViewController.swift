@@ -197,6 +197,22 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
                         (complete) -> Void in
                         self.listImageView.alpha = 1
                 })
+            } else if command == .Delete {
+                let newMessageFrame = CGRect(x: 320, y: self.messageImageView.frame.origin.y, width: self.messageImageView.frame.size.width, height: self.messageImageView.frame.size.height)
+                let newFeedImageFrame = CGRect(x: self.feedImageView.frame.origin.x, y: self.singleMessageView.frame.origin.y, width: self.feedImageView.frame.size.width, height: self.feedImageView.frame.size.height)
+                self.leftIconImageView.alpha = 0
+                
+                UIView.animateWithDuration(0.4, animations: {
+                    () -> Void in
+                    self.backgroundView.backgroundColor = UIColor.init(hexString: "ef540c")
+                    self.messageImageView.frame = newMessageFrame
+                    }, completion: {
+                        (complete) -> Void in
+                        UIView.animateWithDuration(0.4, animations: {
+                            () -> Void in
+                            self.feedImageView.frame = newFeedImageFrame
+                        })
+                })
             } else {
                 UIView.animateWithDuration(0.5, animations: {
                     () -> Void in
