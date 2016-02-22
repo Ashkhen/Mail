@@ -73,6 +73,20 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
+        if(event!.subtype == UIEventSubtype.MotionShake) {
+            self.reset()
+        }
+    }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.becomeFirstResponder()
+    }
+    
+    override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+    
     func reset() {
         self.messageImageView.frame = CGRect(x: 0, y: self.messageImageView.frame.origin.y, width: self.messageImageView.frame.size.width, height: self.messageImageView.frame.size.height)
         self.singleMessageView.frame = CGRect(x: 0, y: self.singleMessageView.frame.origin.y, width: self.singleMessageView.frame.size.width, height: self.singleMessageView.frame.size.height)
