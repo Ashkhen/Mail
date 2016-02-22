@@ -47,6 +47,8 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
 
         let tapGesture = UITapGestureRecognizer(target: self, action: "onRescheduleViewTap")
         self.rescheduleView.addGestureRecognizer(tapGesture)
+        let listImageViewtapGesture = UITapGestureRecognizer(target: self, action: "onListImageViewTap")
+        self.listImageView.addGestureRecognizer(listImageViewtapGesture)
 
     }
 
@@ -57,16 +59,24 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
 
     func onRescheduleViewTap() {
         let newFeedImageFrame = CGRect(x: self.feedImageView.frame.origin.x, y: self.singleMessageView.frame.origin.y, width: self.feedImageView.frame.size.width, height: self.feedImageView.frame.size.height)
-
         self.rescheduleView.alpha = 0
         UIView.animateWithDuration(0.4) {
             () -> Void in
             self.feedImageView.frame = newFeedImageFrame
         }
     }
+    
+    func onListImageViewTap() {
+        let newFeedImageFrame = CGRect(x: self.feedImageView.frame.origin.x, y: self.singleMessageView.frame.origin.y, width: self.feedImageView.frame.size.width, height: self.feedImageView.frame.size.height)
+        self.listImageView.alpha = 0
+        UIView.animateWithDuration(0.4) {
+            () -> Void in
+            self.feedImageView.frame = newFeedImageFrame
+        }
+
+    }
 
     @IBAction func onMessagePan(sender: UIPanGestureRecognizer) {
-        let location = sender.locationInView(view)
         let translation = sender.translationInView(view)
         let velocity = sender.velocityInView(view)
 
@@ -174,6 +184,18 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
                 }, completion: {
                     (complete) -> Void in
                     self.rescheduleView.alpha = 1
+                })
+            } else if command == .List {
+                let newMessageFrame = CGRect(x: -320, y: self.messageImageView.frame.origin.y, width: self.messageImageView.frame.size.width, height: self.messageImageView.frame.size.height)
+                self.rightIconImageView.alpha = 0
+                
+                UIView.animateWithDuration(0.4, animations: {
+                    () -> Void in
+                    self.backgroundView.backgroundColor = UIColor.init(hexString: "d8a675")
+                    self.messageImageView.frame = newMessageFrame
+                    }, completion: {
+                        (complete) -> Void in
+                        self.listImageView.alpha = 1
                 })
             } else {
                 UIView.animateWithDuration(0.5, animations: {
