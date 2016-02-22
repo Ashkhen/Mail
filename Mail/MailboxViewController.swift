@@ -330,6 +330,7 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
                         })
                 })
             } else {
+                self.leftIconImageView.alpha = 0
                 UIView.animateWithDuration(0.5, animations: {
                     () -> Void in
                     self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
@@ -338,7 +339,7 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
                     self.rightIconImageView.alpha = 0
 
                     self.leftIconImageView.center.x = self.initialCenterArchiveIcon.x
-                    self.leftIconImageView.alpha = 0
+        
                 })
             }
         }
