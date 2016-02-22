@@ -31,9 +31,9 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
         case RemindLater
         case List
     }
-    
+
     var command: Command = .Noop
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,10 +44,10 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
         leftIconImageView.alpha = 0
         listImageView.alpha = 0
         rescheduleView.alpha = 0
-        
+
         let tapGesture = UITapGestureRecognizer(target: self, action: "onRescheduleViewTap")
         self.rescheduleView.addGestureRecognizer(tapGesture)
-    
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,13 +57,14 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
 
     func onRescheduleViewTap() {
         let newFeedImageFrame = CGRect(x: self.feedImageView.frame.origin.x, y: self.singleMessageView.frame.origin.y, width: self.feedImageView.frame.size.width, height: self.feedImageView.frame.size.height)
-        
+
         self.rescheduleView.alpha = 0
-        UIView.animateWithDuration(0.4) { () -> Void in
+        UIView.animateWithDuration(0.4) {
+            () -> Void in
             self.feedImageView.frame = newFeedImageFrame
         }
     }
-    
+
     @IBAction func onMessagePan(sender: UIPanGestureRecognizer) {
         let location = sender.locationInView(view)
         let translation = sender.translationInView(view)
@@ -78,24 +79,25 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
             messageImageView.center.x = translation.x + initialCenter.x
             rightIconImageView.center.x = translation.x + initialCenterLaterIcon.x + 35
             leftIconImageView.center.x = translation.x + initialCenterArchiveIcon.x - 35
-            
+
             // when panning left.
             if velocity.x < 0 {
                 if translation.x >= -60 && translation.x < 0 {
                     // Grey
                     self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
-                    UIView.animateWithDuration(0.5, animations: {
+                    UIView.animateWithDuration(0.1, animations: {
                         () -> Void in
                         if translation.x <= 30 {
-                            UIView.animateWithDuration(1.5, animations: {
+                            UIView.animateWithDuration(0.1, animations: {
                                 () -> Void in
                                 self.rightIconImageView.alpha = 1
+                                self.rightIconImageView.image = UIImage(named: "later_icon")
                             })
                         }
                     })
                 } else if translation.x <= -60 && translation.x > -220 {
                     command = .RemindLater
-                    UIView.animateWithDuration(0.5, animations: {
+                    UIView.animateWithDuration(0.1, animations: {
                         () -> Void in
                         // Yellow
                         self.backgroundView.backgroundColor = UIColor.init(hexString: "ffd320")
@@ -103,7 +105,7 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
                     })
                 } else if translation.x < -220 {
                     command = .List
-                    UIView.animateWithDuration(0.5, animations: {
+                    UIView.animateWithDuration(0.1, animations: {
                         () -> Void in
                         // Brown
                         self.backgroundView.backgroundColor = UIColor.init(hexString: "d8a675")
@@ -115,26 +117,27 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
             // when panning right.
             if velocity.x > 0 {
                 if translation.x > 0 && translation.x < 60 {
-                    UIView.animateWithDuration(0.5, animations: {
+                    UIView.animateWithDuration(0.1, animations: {
                         () -> Void in
                         // Grey
                         self.backgroundView.backgroundColor = UIColor.init(hexString: "bfbfbf")
-                        UIView.animateWithDuration(0.4, animations: {
+                        UIView.animateWithDuration(0.1, animations: {
                             () -> Void in
                             self.leftIconImageView.alpha = 1
+                            self.leftIconImageView.image = UIImage(named: "archive_icon")
                         })
                     })
-                } else if translation.x > 60 && translation.x < 220 {
+                } else if translation.x > 60 && translation.x < 260 {
                     command = .Archive
-                    UIView.animateWithDuration(0.5, animations: {
+                    UIView.animateWithDuration(0.1, animations: {
                         () -> Void in
                         // Green
                         self.backgroundView.backgroundColor = UIColor.init(hexString: "62d962")
                         self.leftIconImageView.alpha = 1
                     })
-                } else if translation.x > 220 {
+                } else if translation.x > 260 {
                     command = .Delete
-                    UIView.animateWithDuration(0.5, animations: {
+                    UIView.animateWithDuration(0.1, animations: {
                         () -> Void in
                         // Red
                         self.backgroundView.backgroundColor = UIColor.init(hexString: "ef540c")
@@ -146,30 +149,31 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
             if command == .Archive {
                 let newMessageFrame = CGRect(x: 320, y: self.messageImageView.frame.origin.y, width: self.messageImageView.frame.size.width, height: self.messageImageView.frame.size.height)
                 let newFeedImageFrame = CGRect(x: self.feedImageView.frame.origin.x, y: self.singleMessageView.frame.origin.y, width: self.feedImageView.frame.size.width, height: self.feedImageView.frame.size.height)
+                self.leftIconImageView.alpha = 0
                 
-                UIView.animateWithDuration(0.4, animations: { () -> Void in
+                UIView.animateWithDuration(0.4, animations: {
+                    () -> Void in
                     self.backgroundView.backgroundColor = UIColor.init(hexString: "62d962")
-                    self.leftIconImageView.alpha = 0
                     self.messageImageView.frame = newMessageFrame
-                    }, completion: { (complete) -> Void in
-                        UIView.animateWithDuration(0.4, animations: { () -> Void in
-                            self.feedImageView.frame = newFeedImageFrame
-                        })
+                }, completion: {
+                    (complete) -> Void in
+                    UIView.animateWithDuration(0.4, animations: {
+                        () -> Void in
+                        self.feedImageView.frame = newFeedImageFrame
+                    })
                 })
-               
+
             } else if command == .RemindLater {
                 let newMessageFrame = CGRect(x: -320, y: self.messageImageView.frame.origin.y, width: self.messageImageView.frame.size.width, height: self.messageImageView.frame.size.height)
-                let newFeedImageFrame = CGRect(x: self.feedImageView.frame.origin.x, y: self.singleMessageView.frame.origin.y, width: self.feedImageView.frame.size.width, height: self.feedImageView.frame.size.height)
+                self.rightIconImageView.alpha = 0
                 
-                UIView.animateWithDuration(0.4, animations: { () -> Void in
+                UIView.animateWithDuration(0.4, animations: {
+                    () -> Void in
                     self.backgroundView.backgroundColor = UIColor.init(hexString: "ffd320")
-                    self.rightIconImageView.alpha = 0
                     self.messageImageView.frame = newMessageFrame
-                    }, completion: { (complete) -> Void in
-                        self.rescheduleView.alpha = 1
-//                        UIView.animateWithDuration(0.4, animations: { () -> Void in
-//                            self.feedImageView.frame = newFeedImageFrame
-//                        })
+                }, completion: {
+                    (complete) -> Void in
+                    self.rescheduleView.alpha = 1
                 })
             } else {
                 UIView.animateWithDuration(0.5, animations: {
