@@ -8,6 +8,8 @@
 
 import UIKit
 
+let MAX_MENU_WIDTH: CGFloat = 280
+
 class MailboxViewController: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet weak var mailboxScrollView: UIScrollView!
@@ -19,11 +21,13 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var rescheduleView: UIImageView!
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var singleMessageView: UIView!
-
+    @IBOutlet weak var mainView: UIView!
+    @IBOutlet weak var menuVIew: UIView!
+    
     var initialCenter: CGPoint!
     var initialCenterLaterIcon: CGPoint!
     var initialCenterArchiveIcon: CGPoint!
-
+    
     enum Command {
         case Noop
         case Archive
@@ -49,6 +53,10 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
         self.rescheduleView.addGestureRecognizer(tapGesture)
         let listImageViewtapGesture = UITapGestureRecognizer(target: self, action: "onListImageViewTap")
         self.listImageView.addGestureRecognizer(listImageViewtapGesture)
+        
+        let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: "onEdgePan:")
+        edgeGesture.edges = UIRectEdge.Left
+        mainView.addGestureRecognizer(edgeGesture)
 
     }
 
@@ -57,6 +65,29 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    func onEdgePan(sender: UIScreenEdgePanGestureRecognizer) {
+        let velocity = sender.velocityInView(view)
+        let mainViewFrame = self.mainView.frame
+        
+        if sender.state == .Changed {
+            var x = self.mainView.frame.origin.x + (velocity.x)/50
+            if x < 0 {
+                x = 0
+            }
+            if x > MAX_MENU_WIDTH {
+                x = MAX_MENU_WIDTH
+            }
+            self.mainView.frame = CGRect(origin: CGPoint(x: x, y: mainViewFrame.origin.y), size: mainViewFrame.size)
+            
+        } else if sender.state == .Ended {
+            let x = velocity.x > 0 ? MAX_MENU_WIDTH : 0
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                self.mainView.frame = CGRect(origin: CGPoint(x: x, y: mainViewFrame.origin.y), size: mainViewFrame.size)
+            })
+        }
+    
+    }
+    
     func onRescheduleViewTap() {
         let newFeedImageFrame = CGRect(x: self.feedImageView.frame.origin.x, y: self.singleMessageView.frame.origin.y, width: self.feedImageView.frame.size.width, height: self.feedImageView.frame.size.height)
         self.rescheduleView.alpha = 0
