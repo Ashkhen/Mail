@@ -51,12 +51,20 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
 
         let tapGesture = UITapGestureRecognizer(target: self, action: "onRescheduleViewTap")
         self.rescheduleView.addGestureRecognizer(tapGesture)
+        
         let listImageViewtapGesture = UITapGestureRecognizer(target: self, action: "onListImageViewTap")
         self.listImageView.addGestureRecognizer(listImageViewtapGesture)
+        
+        let mainViewTapGesture = UITapGestureRecognizer(target: self, action: "reset")
+        self.mainView.addGestureRecognizer(mainViewTapGesture)
         
         let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: "onEdgePan:")
         edgeGesture.edges = UIRectEdge.Left
         mainView.addGestureRecognizer(edgeGesture)
+        
+        initialCenter = messageImageView.center
+        initialCenterLaterIcon = rightIconImageView.center
+        initialCenterArchiveIcon = leftIconImageView.center
 
     }
 
@@ -64,7 +72,16 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    func reset() {
+        self.messageImageView.frame = CGRect(x: 0, y: self.messageImageView.frame.origin.y, width: self.messageImageView.frame.size.width, height: self.messageImageView.frame.size.height)
+        self.singleMessageView.frame = CGRect(x: 0, y: self.singleMessageView.frame.origin.y, width: self.singleMessageView.frame.size.width, height: self.singleMessageView.frame.size.height)
+        self.feedImageView.frame = CGRect(x: self.feedImageView.frame.origin.x, y: self.singleMessageView.frame.size.height, width: self.feedImageView.frame.size.width, height: self.feedImageView.frame.size.height)
+        self.mainView.frame = CGRect(origin: CGPoint(x: 0, y: self.mainView.frame.origin.y), size: self.mainView.frame.size)
+        self.rightIconImageView.center = initialCenterLaterIcon
+        self.leftIconImageView.center = initialCenterArchiveIcon
+    }
+    
     func onEdgePan(sender: UIScreenEdgePanGestureRecognizer) {
         let velocity = sender.velocityInView(view)
         let mainViewFrame = self.mainView.frame
@@ -111,12 +128,7 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
         let translation = sender.translationInView(view)
         let velocity = sender.velocityInView(view)
 
-        if sender.state == UIGestureRecognizerState.Began {
-            initialCenter = messageImageView.center
-            initialCenterLaterIcon = rightIconImageView.center
-            initialCenterArchiveIcon = leftIconImageView.center
-
-        } else if sender.state == UIGestureRecognizerState.Changed {
+        if sender.state == UIGestureRecognizerState.Changed {
             messageImageView.center.x = translation.x + initialCenter.x
             rightIconImageView.center.x = translation.x + initialCenterLaterIcon.x + 35
             leftIconImageView.center.x = translation.x + initialCenterArchiveIcon.x - 35
