@@ -249,6 +249,7 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
                     () -> Void in
                     self.backgroundView.backgroundColor = UIColor.init(hexString: "ef540c")
                     self.messageImageView.frame = newMessageFrame
+                     self.leftIconImageView.image = UIImage(named: "delete_icon")
                     }, completion: {
                         (complete) -> Void in
                         UIView.animateWithDuration(0.4, animations: {
