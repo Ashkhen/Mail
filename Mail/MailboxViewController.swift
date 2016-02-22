@@ -24,6 +24,8 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var menuVIew: UIView!
     @IBOutlet weak var composeView: UIView!
+    @IBOutlet weak var archiveLaterView: UIView!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     
     var initialCenter: CGPoint!
     var initialCenterLaterIcon: CGPoint!
@@ -39,6 +41,44 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
 
     var command: Command = .Noop
 
+    @IBAction func onSegmentChange(sender: AnyObject) {
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+                UIView.animateWithDuration(0.4) { () -> Void in
+                    self.archiveLaterView.hidden = false
+                    self.view.bringSubviewToFront(self.archiveLaterView)
+                    self.menuVIew.hidden = true
+
+                    self.archiveLaterView.frame = CGRect(x: 0,
+                            y: self.archiveLaterView.frame.origin.y,
+                            width: self.archiveLaterView.frame.size.width,
+                            height: self.archiveLaterView.frame.size.height)
+                }
+        case 2:
+            UIView.animateWithDuration(0.4) { () -> Void in
+                self.archiveLaterView.hidden = false
+                self.view.bringSubviewToFront(self.archiveLaterView)
+                self.menuVIew.hidden = true
+
+                self.archiveLaterView.frame = CGRect(x: 0,
+                        y: self.archiveLaterView.frame.origin.y,
+                        width: self.archiveLaterView.frame.size.width,
+                        height: self.archiveLaterView.frame.size.height)
+            }
+        default:
+            self.archiveLaterView.frame = CGRect(x: -320,
+                    y: self.archiveLaterView.frame.origin.y,
+                    width: self.archiveLaterView.frame.size.width,
+                    height: self.archiveLaterView.frame.size.height)
+
+            UIView.animateWithDuration(0.4) { () -> Void in
+                self.archiveLaterView.hidden = true
+                self.view.sendSubviewToBack(self.archiveLaterView)
+                self.menuVIew.hidden = false
+            }
+        }
+    }
+    
     @IBAction func onCancel(sender: AnyObject) {
         UIView.animateWithDuration(0.3) { () -> Void in
             self.composeView.alpha = 0
@@ -53,6 +93,11 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.archiveLaterView.frame = CGRect(x: -320,
+                y: self.archiveLaterView.frame.origin.y,
+                width: self.archiveLaterView.frame.size.width,
+                height: self.archiveLaterView.frame.size.height)
 
         mailboxScrollView.delegate = self
         mailboxScrollView.contentSize = CGSize(width: 320, height: 1420)

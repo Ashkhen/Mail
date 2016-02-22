@@ -13,6 +13,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="1420"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view hidden="YES" contentMode="scaleToFill" id="d8N-uY-YwC" userLabel="ArchiveLaterView">
+                                <rect key="frame" x="0.0" y="100" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed" id="bsr-BA-aL8">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" id="h4z-ea-TBk" userLabel="Menu View">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -60,6 +71,9 @@
                                                     <segment title="" image="archive_nav_icon"/>
                                                 </segments>
                                                 <color key="tintColor" red="0.26666666666666666" green="0.6705882352941176" blue="0.82745098039215681" alpha="1" colorSpace="calibratedRGB"/>
+                                                <connections>
+                                                    <action selector="onSegmentChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="IlR-lM-XyG"/>
+                                                </connections>
                                             </segmentedControl>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -155,6 +169,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="1420"/>
                     <connections>
+                        <outlet property="archiveLaterView" destination="d8N-uY-YwC" id="yVm-dE-6rL"/>
                         <outlet property="backgroundView" destination="HiO-6O-lL9" id="KTi-Jd-Ibq"/>
                         <outlet property="composeView" destination="PUU-j4-RbD" id="IpW-Xn-anW"/>
                         <outlet property="feedImageView" destination="Nwo-wU-3UZ" id="hOx-I7-oHy"/>
@@ -166,6 +181,7 @@
                         <outlet property="messageImageView" destination="ZbU-6l-T9g" id="6dA-zs-9Oc"/>
                         <outlet property="rescheduleView" destination="Zcm-7r-S0U" id="x5d-BV-fV9"/>
                         <outlet property="rightIconImageView" destination="6PF-Kf-Lxa" id="jva-0i-7UN"/>
+                        <outlet property="segmentControl" destination="iCe-fs-oxI" id="XWm-AQ-Zm1"/>
                         <outlet property="singleMessageView" destination="b4d-i3-R8F" id="kNL-v1-mcx"/>
                     </connections>
                 </viewController>
