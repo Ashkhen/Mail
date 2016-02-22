@@ -23,6 +23,7 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var singleMessageView: UIView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var menuVIew: UIView!
+    @IBOutlet weak var composeView: UIView!
     
     var initialCenter: CGPoint!
     var initialCenterLaterIcon: CGPoint!
@@ -38,6 +39,18 @@ class MailboxViewController: UIViewController, UIScrollViewDelegate {
 
     var command: Command = .Noop
 
+    @IBAction func onCancel(sender: AnyObject) {
+        UIView.animateWithDuration(0.3) { () -> Void in
+            self.composeView.alpha = 0
+        }
+    }
+    
+    @IBAction func onComposeTap(sender: AnyObject) {
+        UIView.animateWithDuration(0.3) { () -> Void in
+            self.composeView.alpha = 1
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
